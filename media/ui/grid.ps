@@ -1,0 +1,29 @@
+// Shader test for AGE (agk game editor)
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+uniform sampler2D texture2;
+varying highp vec2 uvVarying;
+varying highp vec2 uvVarying1;
+varying highp vec2 uvVarying2;
+varying mediump vec3 normalVarying;
+varying highp vec3 posVarying;
+uniform mediump vec4 agk_MeshDiffuse;
+uniform mediump vec4 agk_MeshEmissive;
+
+void main()
+{ 
+    mediump vec4 blendTex = vec4(1.0,1.0,1.0,1.0);
+    mediump vec4 color0 = texture2D(texture0, uvVarying);
+    mediump vec4 color1 = texture2D(texture1, uvVarying1);
+    mediump vec4 color2 = texture2D(texture2, uvVarying2);
+	
+	//color0.rgb *= color0.a; //premultiply source 
+	//color1.rgb *= color1.a; //premultiply source 
+	//mediump vec4 finalCol;
+	//finalCol.rgb = color0.rgb + (color1.rgb * (1.0 - color0.a));       
+	//finalCol.a = color0.a ; // + (color1.a * (1.0 - color0.a));
+    
+	
+	//gl_FragColor = (color1 * blendTex * agk_MeshDiffuse + agk_MeshEmissive); 
+	gl_FragColor = (mix(color0, color1, color1.a) * blendTex * agk_MeshDiffuse + agk_MeshEmissive); // * color0.a ;
+}

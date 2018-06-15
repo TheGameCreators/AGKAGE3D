@@ -1,0 +1,92 @@
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+uniform sampler2D texture2;
+uniform sampler2D texture3;
+uniform sampler2D texture4;
+
+varying highp vec3 posVarying;
+varying mediump vec3 normalVarying;
+varying mediump vec2 uvVarying;
+varying mediump vec3 lightVarying;
+varying mediump vec3 colorVarying;
+
+varying highp vec4 clipSpace;
+varying highp vec3 cameraVector;
+
+
+// these must appear exactly as they are to work, spaces and all.
+// they will be filled in by AGK
+mediump vec3 GetPSLighting( mediump vec3 normal, highp vec3 pos );
+mediump vec3 ApplyFog( mediump vec3 color, highp vec3 pointPos );
+
+
+uniform mediump vec2 cameraRange;
+uniform highp vec3 lightVector;
+uniform highp vec3 lightColor;
+uniform float agk_time;
+
+const float waveSpeed = 0.06; // 0.06
+const float waveStrength = 0.04; // 0.04
+//const float shineDamper = 20.0; // 20
+uniform float shineDamper; // = 20.0; // 20
+//const float reflectivity = 0.2; // 0.2
+uniform float reflectivity; // 0.2
+
+void main()
+{ 
+    
+	mediump vec3 norm = normalize(normalVarying);
+	mediump vec3 light = lightVarying + GetPSLighting( norm, posVarying );
+    // mediump vec3 color = colorVarying;
+    // mediump vec3 color = texture2D(texture0, uvVarying).rgb * color * light;
+    mediump vec3 color = texture2D(texture0, uvVarying).rgb * light;
+	
+	
+	vec2 ndc = (clipSpace.xy/clipSpace.w) * 0.5 + 0.5;
+	vec2 reflectTexCoords = ndc;
+	vec2 refractTexCoords = vec2(ndc.x,1.0 - ndc.y);
+	
+	float depth = texture2D(texture4, refractTexCoords).r;
+	float floorDistance = 2.0 * cameraRange.x * cameraRange.y / (cameraRange.y + cameraRange.x - (2.0 * depth - 1.0) * (cameraRange.y - cameraRange.x));
+	
+	depth = gl_FragCoord.z;
+	 float waterDistance = 2.0 * cameraRange.x * cameraRange.y / (cameraRange.y + cameraRange.x - (2.0 * depth - 1.0) * (cameraRange.y - cameraRange.x));
+	 float waterDepth = floorDistance - waterDistance;
+	
+	float moveWave = agk_time * waveSpeed;
+	vec2 distortionTexCoords = texture2D(texture2, vec2(uvVarying.x + moveWave, uvVarying.y)).rg * 0.1;
+	distortionTexCoords = uvVarying + vec2(distortionTexCoords.x, distortionTexCoords.y + moveWave);
+	vec2 totalDistortion = (texture2D(texture2, distortionTexCoords).rg * 2.0 - 1.0) * waveStrength;
+	//vec2 totalDistortion = (texture2D(texture2, distortionTexCoords).rg * 2.0 - 1.0) * waveStrength * clamp(waterDepth*0.5,0.0,1.0);  ;
+	
+	
+	reflectTexCoords += totalDistortion;
+	refractTexCoords += totalDistortion;
+	
+	vec4 reflectColor = texture2D(texture0, reflectTexCoords);
+	vec4 refractColor = texture2D(texture1, refractTexCoords);
+	
+	vec4 normalColor = texture2D(texture3, distortionTexCoords);
+	vec3 normal = vec3(normalColor.r * 2.0 - 1.0, normalColor.b, normalColor.g * 2.0 -1.0);
+	normal = normalize(normal);
+	
+	vec3 viewVector = normalize(cameraVector);
+	float refractFactor = dot(viewVector, normal);
+	refractFactor = clamp(pow(refractFactor,0.5),0.0,1.0);
+	
+	vec3 reflectedLight = reflect(normalize(lightVector), normal);
+	float specular = max(dot(reflectedLight, viewVector), 0.0);
+	specular = pow(specular, shineDamper);
+	vec3 specularHighlights = lightColor * specular * reflectivity;
+	
+	refractColor = mix(refractColor, vec4(0.24,0.43,0.35,1.0), clamp(waterDepth * 0.1, 0.0, 1.0));
+	
+	vec4 waterFinal = mix(mix(reflectColor,refractColor,refractFactor), vec4(0.0,0.3,0.4,1.0), 0.2);
+	gl_FragColor = (waterFinal + vec4(specularHighlights, 0.0));
+	gl_FragColor.rgb = ApplyFog( gl_FragColor.rgb, posVarying );
+	// gl_FragColor.a = clamp(waterDepth*0.5,0.0,1.0)*0.8;
+	gl_FragColor.a = clamp(waterDepth*0.5,0.0,1.0);
+	
+	
+	
+}

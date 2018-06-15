@@ -1,0 +1,5 @@
+; scale=axis,active,speed,from-to,loop,delay,typ,orientation,event, see rot for details
+desc=A simple scale in X.
+scale=1,1,0.5,0-2,0,0,0,-1,
+
+

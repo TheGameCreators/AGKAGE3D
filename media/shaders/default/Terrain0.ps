@@ -1,0 +1,38 @@
+// constant values sent through from AGK code.
+uniform sampler2D texture0; // ground
+uniform sampler2D texture1; // road
+uniform sampler2D texture2; // mask 
+ 
+varying vec2 uv0Varying; // uv for ground
+varying vec2 uv1Varying; // uv for road
+varying vec2 uv2Varying; // uv for the "alpha mask"
+
+varying mediump vec3 normalVarying;
+varying mediump vec3 lightVarying;
+varying highp vec3 posVarying;
+mediump vec3 GetPSLighting( mediump vec3 normal, highp vec3 pos );
+mediump vec3 ApplyFog( mediump vec3 color, highp vec3 pointPos );
+uniform mediump vec4 agk_MeshDiffuse;
+uniform mediump vec4 agk_MeshEmissive;
+ 
+void main()
+{
+	// the textures coords
+	vec4 colorResult0  = texture2D(texture0, uv0Varying);
+	vec4 colorResult1  = texture2D(texture1, uv1Varying);
+	vec4 colorResult2  = texture2D(texture2, uv2Varying);
+   
+    mediump vec4 blendTex = vec4(1.0,1.0,1.0,1.0);
+    mediump vec3 norm = normalize(normalVarying);
+    mediump vec3 light = lightVarying + GetPSLighting( norm, posVarying ); 
+
+	// mix with the R color of the 3rd texture. You can use the G and b channel for another road
+	gl_FragColor = mix(colorResult0, colorResult1, colorResult2.r); 
+	
+	// add light
+	gl_FragColor = gl_FragColor * blendTex * vec4(light,1.0) * agk_MeshDiffuse + agk_MeshEmissive;
+	
+	// add fog
+	gl_FragColor.rgb = ApplyFog( gl_FragColor.rgb, posVarying );
+
+}

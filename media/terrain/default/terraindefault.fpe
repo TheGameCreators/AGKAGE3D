@@ -1,0 +1,17 @@
+;header
+desc          = Default
+
+;visualinfo
+receiveshadow = 1
+
+detail		= detail.png
+heightmap   = Mexico.png
+shader		= Terrain
+
+; terrain parameters
+uvscale = 16
+width = 96
+height = 6
+length = 96
+smooth = 1
+split = 8

@@ -1,0 +1,19 @@
+#ifdef GL_ES
+	#ifdef GL_FRAGMENT_PRECISION_HIGH   
+		precision highp float;
+	#else
+		precision mediump float;
+	#endif
+#endif
+
+uniform sampler2D texture0;
+uniform vec4 agk_MeshDiffuse;
+uniform vec4 agk_MeshEmissive;
+varying vec2 uvVarying;
+
+void main()
+{
+	gl_FragColor = (texture2D(texture0, uvVarying) * agk_MeshDiffuse * agk_MeshEmissive);
+	gl_FragColor = clamp(gl_FragColor, 0.0, 1.0) * agk_MeshDiffuse.a; 
+	if (agk_MeshDiffuse.a <= 0) discard;
+}

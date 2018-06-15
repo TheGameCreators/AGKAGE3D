@@ -1,0 +1,4 @@
+; particle system for AGE
+desc, A green magic
+psys,Green magic,0,0,0,250,1,85,60,60,60,9,2,textures/part/part0.jpg;,22,253,0,255,0,0,0;0;0;,9,10,10,10,0;1;1;,
+

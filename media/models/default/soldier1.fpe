@@ -1,0 +1,29 @@
+;header
+desc          = Soldier
+
+;visualinfo
+textured      = Soldier_body_1_D.jpg
+castshadow    = 1
+animated      = 1
+animspeed     = 20
+
+
+; need more informations about animation : nb frame, animations number...
+
+;orientation
+model         = Original_Soldier.x
+offx          = 0
+offy          = 0
+offz          = 0
+rotx          = 0
+roty          = 0
+rotz          = 0
+sizx	      = 1
+sizy	      = 1
+sizz	      = 1
+defaultstatic = 1
+materialindex = 1
+collisionmode = 1
+
+
+

@@ -1,0 +1,33 @@
+varying highp vec2 uv0Varying;
+varying highp vec2 uv1Varying;
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+varying mediump vec3 normalVarying;
+varying mediump vec3 lightVarying;
+varying highp vec3 posVarying;
+mediump vec3 GetPSLighting( mediump vec3 normal, highp vec3 pos );
+uniform sampler2D texture2;
+varying mediump vec3 tangentVarying;
+varying mediump vec3 binormalVarying;
+uniform mediump vec2 agk_NormalScale;
+uniform mediump vec4 agk_MeshDiffuse;
+uniform mediump vec4 agk_MeshEmissive;
+void main()
+{ 
+    mediump vec4 blendTex = vec4(1.0,1.0,1.0,1.0);
+    mediump vec3 norm = normalize(normalVarying);
+    mediump vec2 texture2UV = uv0Varying;
+    mediump vec3 normalmap = texture2D(texture2, texture2UV*agk_NormalScale).xyz;
+    normalmap = normalmap * 2.0 - 1.0;
+    mediump vec3 tangent = normalize(tangentVarying) * 3.0 ;
+    mediump vec3 binormal = normalize(binormalVarying)  ;
+    mediump mat3 TBN = mat3( tangent, binormal, norm );
+    norm = TBN * normalmap  ;
+    mediump vec3 light = lightVarying + GetPSLighting( norm, posVarying ); 
+    mediump vec4 tex1 = texture2D(texture1, uv0Varying); // lightmap
+    // light += tex1.rgb;
+    light = light * (0.8+tex1.rgb*0.8) + tex1.rgb*0.8;
+    mediump vec4 texColor = texture2D(texture0, uv1Varying); // diffuse
+    gl_FragColor = texColor * blendTex * vec4(light,1.0) * agk_MeshDiffuse + agk_MeshEmissive;
+}
+

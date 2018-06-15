@@ -1,0 +1,4 @@
+; rot=axis,active,speed,from-to,loop,delay,typ,orientation,event,
+; from-to : angle start, angle end / loop : number of repeat (0=infinite) / delay : between each rotation / typ : linear(0),ping-pong(1)/ orientation : local(0)/global(1), event : the event which start the rot_y : -1 (no event).
+desc=simple rotation on Y.
+rot=1,1,1,0-360,0,0,0,-1,

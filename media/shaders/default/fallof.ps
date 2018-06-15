@@ -1,0 +1,17 @@
+/*
+Original Rim lighting fragment shader, Written by TheSnidr
+Modified by blendman for AGK2 
+*/
+uniform sampler2D texture0; 
+uniform vec4 agk_MeshDiffuse;
+
+varying float dp;
+varying vec2 uv0Varying;
+
+
+void main()
+{
+	vec4 colorVarying = vec4(0.0,0.5,0.7,0.5);
+	// gl_FragColor = texture2D(texture0, uv0Varying) * agk_MeshDiffuse * colorVarying + dp*0.5;
+	gl_FragColor = texture2D(texture0, uv0Varying) * agk_MeshDiffuse + colorVarying*dp*0.5;
+}

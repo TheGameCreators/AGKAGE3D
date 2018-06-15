@@ -1,0 +1,34 @@
+uniform sampler2D texture0;
+varying highp vec2 uvVarying;
+varying mediump vec3 normalVarying;
+varying mediump vec3 lightVarying;
+varying highp vec3 posVarying;
+mediump vec3 GetPSLighting( mediump vec3 normal, highp vec3 pos );
+mediump vec3 ApplyFog( mediump vec3 color, highp vec3 pointPos );
+uniform mediump vec4 agk_MeshDiffuse;
+uniform mediump vec4 agk_MeshEmissive;
+ 
+void main()
+{
+	mediump vec4 color = texture2D(texture0, uvVarying);
+	mediump vec4 blendTex = vec4(1.0,1.0,1.0,1.0);
+    mediump vec3 norm = normalize(normalVarying);
+    mediump vec3 light = lightVarying + GetPSLighting( norm, posVarying ); 
+
+	float intensity;
+	vec4 color1;
+	intensity = dot(GetPSLighting( norm, posVarying ), norm);
+
+	if (intensity > 0.95)
+		color1 = vec4(0.6,0.6,0.6,1.0);
+	else if (intensity > 0.5)
+		color1 = vec4(0.5,0.5,0.5,1.0);
+	else if (intensity > 0.25)
+		color1 = vec4(0.3,0.3,0.3,1.0);
+	else
+		color1 = vec4(0.1,0.1,0.1,1.0);
+	
+	
+    gl_FragColor = color1 + (0.6+color1*0.4) * color * blendTex * vec4(light,1.0) * agk_MeshDiffuse + agk_MeshEmissive;
+	gl_FragColor.rgb = ApplyFog( gl_FragColor.rgb, posVarying );
+}

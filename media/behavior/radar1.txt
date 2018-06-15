@@ -1,0 +1,4 @@
+; rot=axis,active,speed,from-to,loop,delay,typ,orientation,event,
+; from-to : angle start, angle end / loop : number of repeat (0=infinite) / delay : between each rotation / typ : linear (0),ping-pong(1)/ orientation : local(0)/global(1), event : the event which start the rot_y : -1 (no event).
+desc=A radar rotation from 0 to 90, in X, with delay.
+rot=1,1,0.5,0-90,0,180,1,-1,

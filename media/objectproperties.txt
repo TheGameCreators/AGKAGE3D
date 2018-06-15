@@ -1,0 +1,57 @@
+﻿; 1) the object parameters
+; define the object typ that you want
+objecttyp=object,action,npc,mob,fx,
+; then define each "sub-typ"
+object=decor,colision,flower,shado,
+fx=Fire,smoke,fire2,green magic,acid,blue magic,teleporter,luciole,
+action=Teleporter,chest,start,exit,groupmob,CreateObj,levier,Bonus,Malus,
+npc=infos,quest,merchand,sale,help,friends,craft,dongeon,exploration,arena,
+mob=mob,repop,group,boss,
+
+; 2)  the dynamically gadgets !
+; You should use the object parameters ;)
+name=action,pnj,mob,fx,
+; zone,machine,voix
+; gadget1=type of gadget|name of the gadget(gadget tooltip)|parameters for the gadget (gadget items for gadget which can have item or default parameter for others)|default parameter
+; type of gadget : checkbox=0,combobox=1,spin=2,string=3,trackbar=4
+; type =1 action, 2=pnj, 3=mob, 4=fx, 
+;
+[action]
+nb=6
+gadget1=1|Type d'action|Teleporter,coffre,start,groupmob,exit,checkpoint,|0|
+gadget2=3|id de l'action|0|
+gadget3=0|Actif|0|
+gadget4=3|Map|0|
+gadget5=3|arrivée X|0|
+gadget6=3|arrivée Y|0|
+;
+[pnj]
+nb=2
+gadget1=1|Type de PNJ|basic,quête,vente,achat,aide,compagnon,|0|
+gadget2=3|id du pnj|0|
+;
+[fx]
+nb=5
+gadget1=1|Type de Fx|Image, particule,|0|
+gadget2=3|Time Max|0|
+gadget3=3|Life system|0|
+gadget4=3|Life particule|0|
+gadget5=3|Random|0|
+; PartTimeMax,life,Lifepart,rand,
+;
+[machine]
+;
+[mob]
+nb=7
+gadget1=1|Type de mob|Seul,groupe,boss,|0|
+gadget2=3|Mob Id (c'est l'identifiant ici, pas dans le fichier mob.ini)|0|
+gadget3=3|Groupe Id|0|
+gadget4=3|Id et nbre des mobs (id du fichier mob.ini) > sous la forme "nb;id;|nb;id;|", -1 pour random (-1;-1;/ pour random-max 10)|-1|
+gadget5=1|Apparition|Présent,apparait si zone,apparaît si mob mort(ou dernier mob du groupe id),apparaît si eventId|0|
+Gadget6=3|Id Déclencheur (id mob/groupe mort ou Event Id)|0|
+Gadget7=2|Rayon player-mob|200|
+;
+[voix]
+;
+[zone]
+;

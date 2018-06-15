@@ -1,0 +1,18 @@
+Name=Default
+; Fog
+FogR=255
+FogG=255
+FogB=255
+FogOk=1
+FogMin=100
+FogMax=500
+; Sun
+SunOk=1
+SunR=150
+SunG=120
+SunB=50
+SunX=5
+SunY=5
+SunZ=5
+; Skybox
+SkyBoxOk=1

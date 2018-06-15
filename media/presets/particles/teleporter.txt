@@ -1,0 +1,4 @@
+; particle system for AGE
+desc, A teleporter
+psys,Teleporter,-592.90,5.00,-461.04,300.00,100.00,100.00,40.00,40.00,40.00,30.00,2,textures/part/part2.jpg;,14,128,177,230,0,0,0;0;0;,9,10,10,10,0;1;1;,
+

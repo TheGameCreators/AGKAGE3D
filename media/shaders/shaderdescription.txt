@@ -1,0 +1,17 @@
+// to set the description for shader
+// shader name|folder|description|nb of texture used|nb of uvmampping used|nb of parameter to set|name of parameters|
+//***** the shader 
+1_groundshadow|default|texture (ground) + shadow with multiply blendmode|2|1|0||
+additif|default|mask alpha shader|1|1|0||
+bmadd|default|additive shader|2|1|0||
+bmmult|default|multiply shader|2|1|0||
+cartoon|default|cartoon shader in multiply mode|1|1|0||
+cartoonAdd|default|cartoon shader in additive mode|1|1|0||
+cartoonmix|default|cartoon shader (neutral colors)|1|1|0||
+matcap|default|matcap shader|1|1|0||
+Terrain|default|terrain shader (1 texture)|1|1|0||
+Terrain2|default|terrain shader (4 texture)|4|1|0||
+Terrain0|default|terrain with 2 textures  for ground and an alpha for the road|3|1|0||
+metal|default|metal shader (envmap, multiply blendmode|2|2|0||
+metal2|default|metal shader (envmap), add blendmode, envmap0.3/0.5|2|2|0||
+metal3|default|metal shader (envmap), add blendmode, envmap 0.5/0.5|2|2|0||

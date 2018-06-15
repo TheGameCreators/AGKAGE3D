@@ -1,0 +1,8 @@
+ ; bank preset for AGE
+General,0.30,
+ ; Images for the bank preset
+Img,18,models/monsters/iceman_D.jpg,
+Img,19,models/monsters/dragon1_D.jpg,
+ ; Models 3D for the bank preset
+Model,0,models/monsters/iceman.dae,
+Model,1,models/monsters/dragon1.dae,

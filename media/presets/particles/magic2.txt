@@ -1,0 +1,4 @@
+; particle system for AGE
+desc, A simple magic spell
+psys,Magic,0,0,0,400.00,150.00,105.00,50.00,40.00,50.00,20.00,2,textures/part/part1.jpg;,150,70,249,255,0,0,0;0;0;,9,10,10,10,0;1;1;,
+
